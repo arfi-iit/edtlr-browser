@@ -22,7 +22,8 @@ venv: clean
 		$(VENV_PIP) install -r requirements.txt; \
 	else \
 		$(VENV_PIP) install django \
-				psycopg2-binary; \
+				psycopg2-binary \
+				python-dotenv; \
 		$(VENV_PIP) freeze > requirements.txt; \
 	fi; \
 
