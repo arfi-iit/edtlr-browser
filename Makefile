@@ -35,8 +35,7 @@ dev-venv: venv
 				yapf \
 				cmake-language-server \
 				autotools-language-server; \
-		$(VENV_PIP) freeze > requirements-dev.txt; \
-		sed -i '/^## The following/,+1d' requirements-dev.txt; \
+		$(VENV_PIP) freeze -r requirements.txt | sed '1,/^## The following/d' > requirements-dev.txt; \
 	fi; \
 
 # Create the Django application
