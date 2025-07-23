@@ -212,3 +212,4 @@ __marimo__/
 # Expaded templates
 /templates/edtlr-browser.socket
 /templates/gunicorn.conf.py
+/templates/edtlr-browser.service
