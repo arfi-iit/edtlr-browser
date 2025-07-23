@@ -65,3 +65,9 @@ dot-env-file: templates/.env.template
 	sed -i "s/__DATABASE_USER__/${DATABASE_USER}/g" ${SRC_DIR}/.env;
 	sed -i "s/__DATABASE_PASSWORD__/${DATABASE_PASSWORD}/g" ${SRC_DIR}/.env;
 	sed -i "s/__DATABASE_PORT__/${DATABASE_PORT}/g" ${SRC_DIR}/.env;
+
+# Make the socket descriptor
+socket-descriptor: templates/edtlr-browser.socket.template
+	rm -f templates/edtlr-browser.socket;
+	cp templates/edtlr-browser.socket.template templates/edtlr-browser.socket;
+
