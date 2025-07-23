@@ -71,3 +71,13 @@ socket-descriptor: templates/edtlr-browser.socket.template
 	rm -f templates/edtlr-browser.socket;
 	cp templates/edtlr-browser.socket.template templates/edtlr-browser.socket;
 
+# Make the Gunicorn configuration file
+NUM_WORKERS=4
+GUNICORN_PATH=$(realpath ${VENV_BIN})/gunicorn
+PYTHON_PATH=$(realpath ${SRC_DIR})
+gunicorn-config: templates/gunicorn.conf.py.template
+	rm -f templates/gunicorn.conf.py;
+	cp templates/gunicorn.conf.py.template templates/gunicorn.conf.py;
+	sed -i "s~__GUNICORN_PATH__~$(GUNICORN_PATH)~g" templates/gunicorn.conf.py;
+	sed -i "s~__SRC_DIR_PATH__~$(PYTHON_PATH)~g" templates/gunicorn.conf.py;
+	sed -i "s/__NUM_WORKERS__/$(NUM_WORKERS)/g" templates/gunicorn.conf.py;
