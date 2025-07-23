@@ -53,3 +53,15 @@ app: dev-venv
 # Run the development server
 start: $(SRC_DIR)/manage.py
 	$(VENV_PYTHON) $(SRC_DIR)/manage.py runserver 0.0.0.0:$(PORT);
+
+# Make the .env file
+dot-env-file: templates/.env.template
+	cp templates/.env.template ${SRC_DIR}/.env;
+	sed -i "s/__DEBUG__/${DEBUG}/g" ${SRC_DIR}/.env;
+	sed -i "s/__SECRET_KEY__/${SECRET_KEY}/g" ${SRC_DIR}/.env;
+	sed -i "s/__STATIC_ROOT__/${STATIC_ROOT}/g" ${SRC_DIR}/.env;
+	sed -i "s/__DATABASE_HOST__/${DATABASE_HOST}/g" ${SRC_DIR}/.env;
+	sed -i "s/__DATABASE_NAME__/${DATABASE_NAME}/g" ${SRC_DIR}/.env;
+	sed -i "s/__DATABASE_USER__/${DATABASE_USER}/g" ${SRC_DIR}/.env;
+	sed -i "s/__DATABASE_PASSWORD__/${DATABASE_PASSWORD}/g" ${SRC_DIR}/.env;
+	sed -i "s/__DATABASE_PORT__/${DATABASE_PORT}/g" ${SRC_DIR}/.env;
