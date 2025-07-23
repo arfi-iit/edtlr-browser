@@ -9,6 +9,9 @@ APP_NAME	= browser
 APP_DIR		= $(SRC_DIR)/$(APP_NAME)
 
 PORT		= 8000
+NUM_WORKERS	= 4
+GUNICORN_PATH	= $(realpath ${VENV_BIN}/gunicorn)
+PYTHON_PATH	= $(realpath ${SRC_DIR})
 
 # Recipes
 clean:
@@ -67,18 +70,24 @@ dot-env-file: templates/.env.template
 	sed -i "s/__DATABASE_PASSWORD__/${DATABASE_PASSWORD}/g" ${SRC_DIR}/.env;
 	sed -i "s/__DATABASE_PORT__/${DATABASE_PORT}/g" ${SRC_DIR}/.env;
 
-# Make the socket descriptor
+# Make the socket descriptor file
 socket-descriptor: templates/edtlr-browser.socket.template
 	rm -f templates/edtlr-browser.socket;
 	cp templates/edtlr-browser.socket.template templates/edtlr-browser.socket;
 
 # Make the Gunicorn configuration file
-NUM_WORKERS=4
-GUNICORN_PATH=$(realpath ${VENV_BIN}/gunicorn)
-PYTHON_PATH=$(realpath ${SRC_DIR})
 gunicorn-config: templates/gunicorn.conf.py.template
 	rm -f templates/gunicorn.conf.py;
 	cp templates/gunicorn.conf.py.template templates/gunicorn.conf.py;
 	sed -i "s~__GUNICORN_PATH__~$(GUNICORN_PATH)~g" templates/gunicorn.conf.py;
 	sed -i "s~__SRC_DIR_PATH__~$(PYTHON_PATH)~g" templates/gunicorn.conf.py;
 	sed -i "s/__NUM_WORKERS__/$(NUM_WORKERS)/g" templates/gunicorn.conf.py;
+
+# Make the service descriptor file
+service-descriptor: templates/edtlr-browser.service.template
+	rm -f templates/edtlr-browser.service;
+	cp templates/edtlr-browser.service.template templates/edtlr-browser.service;
+	sed -i "s~__GUNICORN_PATH__~$(GUNICORN_PATH)~g" templates/edtlr-browser.service;
+	sed -i "s~__SRC_DIR_PATH__~$(PYTHON_PATH)~g" templates/edtlr-browser.service;
+	sed -i "s/__USER__/$(USER)/g" templates/edtlr-browser.service;
+	sed -i "s/__GROUP__/$(GROUP)/g" templates/edtlr-browser.service;
