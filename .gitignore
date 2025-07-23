@@ -213,3 +213,4 @@ __marimo__/
 /templates/edtlr-browser.socket
 /templates/gunicorn.conf.py
 /templates/edtlr-browser.service
+/templates/edtlr-browser.conf
