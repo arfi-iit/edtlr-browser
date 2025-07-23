@@ -23,7 +23,8 @@ venv: clean
 	else \
 		$(VENV_PIP) install django \
 				psycopg2-binary \
-				python-dotenv; \
+				python-dotenv \
+				gunicorn; \
 		$(VENV_PIP) freeze > requirements.txt; \
 	fi; \
 
@@ -73,7 +74,7 @@ socket-descriptor: templates/edtlr-browser.socket.template
 
 # Make the Gunicorn configuration file
 NUM_WORKERS=4
-GUNICORN_PATH=$(realpath ${VENV_BIN})/gunicorn
+GUNICORN_PATH=$(realpath ${VENV_BIN}/gunicorn)
 PYTHON_PATH=$(realpath ${SRC_DIR})
 gunicorn-config: templates/gunicorn.conf.py.template
 	rm -f templates/gunicorn.conf.py;
