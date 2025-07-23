@@ -208,3 +208,6 @@ __marimo__/
 
 # Local data and utility scripts
 /.local/
+
+# Expaded templates
+/templates/edtlr-browser.socket
