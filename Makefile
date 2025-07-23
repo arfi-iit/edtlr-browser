@@ -4,11 +4,13 @@ VENV_BIN	= $(VENV)/bin
 VENV_PYTHON	= $(VENV_BIN)/python
 VENV_PIP	= $(VENV_BIN)/pip
 
-SRC_DIR		= src
+SRC_DIR	= src
 APP_NAME	= browser
-APP_DIR		= $(SRC_DIR)/$(APP_NAME)
+APP_DIR	= $(SRC_DIR)/$(APP_NAME)
+APP_ROOT	= $(realpath $(SRC_DIR)/..)
 
 PORT		= 8000
+STATIC_ROOT	= static
 NUM_WORKERS	= 4
 GUNICORN_PATH	= $(realpath ${VENV_BIN}/gunicorn)
 PYTHON_PATH	= $(realpath ${SRC_DIR})
@@ -91,3 +93,11 @@ service-descriptor: templates/edtlr-browser.service.template
 	sed -i "s~__SRC_DIR_PATH__~$(PYTHON_PATH)~g" templates/edtlr-browser.service;
 	sed -i "s/__USER__/$(USER)/g" templates/edtlr-browser.service;
 	sed -i "s/__GROUP__/$(GROUP)/g" templates/edtlr-browser.service;
+
+# Make the Nginx configuration file
+nginx-config: templates/nginx-config.template
+	rm -f edtlr-browser.conf;
+	cp templates/nginx-config.template templates/edtlr-browser.conf;
+	sed -i "s/__SERVER_NAME__/$(SERVER_NAME)/g" templates/edtlr-browser.conf;
+	sed -i "s/__STATIC_ROOT__/$(STATIC_ROOT)/g" templates/edtlr-browser.conf;
+	sed -i "s~__APP_ROOT__~$(APP_ROOT)~g" templates/edtlr-browser.conf;
