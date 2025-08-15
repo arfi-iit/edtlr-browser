@@ -95,9 +95,11 @@ service-descriptor: templates/edtlr-browser.service.template
 	sed -i "s/__GROUP__/$(GROUP)/g" templates/edtlr-browser.service;
 
 # Make the Nginx configuration file
-nginx-config: templates/nginx-config.template
+nginx-config: templates/edtlr-browser.conf.template
 	rm -f edtlr-browser.conf;
-	cp templates/nginx-config.template templates/edtlr-browser.conf;
-	sed -i "s/__SERVER_NAME__/$(SERVER_NAME)/g" templates/edtlr-browser.conf;
-	sed -i "s/__STATIC_ROOT__/$(STATIC_ROOT)/g" templates/edtlr-browser.conf;
-	sed -i "s~__APP_ROOT__~$(APP_ROOT)~g" templates/edtlr-browser.conf;
+	cp templates/edtlr-browser.conf.template templates/edtlr-browser.conf;
+	sed -i "s~__STATIC_URL__~$(STATIC_URL)~g" templates/edtlr-browser.conf;
+	sed -i "s~__STATIC_ROOT__~$(realpath $(STATIC_ROOT))~g" templates/edtlr-browser.conf;
+
+# install: venv dot-env-file socket-descriptor gunicorn-config service-descriptor nginx-config
+# 	mv
