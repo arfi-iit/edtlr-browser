@@ -65,7 +65,9 @@ dot-env-file: templates/.env.template
 	cp templates/.env.template ${SRC_DIR}/.env;
 	sed -i "s/__DEBUG__/${DEBUG}/g" ${SRC_DIR}/.env;
 	sed -i "s/__SECRET_KEY__/${SECRET_KEY}/g" ${SRC_DIR}/.env;
-	sed -i "s/__STATIC_ROOT__/${STATIC_ROOT}/g" ${SRC_DIR}/.env;
+	sed -i "s~__STATIC_ROOT__~$(STATIC_ROOT)~g" ${SRC_DIR}/.env;
+	sed -i "s~__STATIC_URL__~$(STATIC_URL)~g" ${SRC_DIR}/.env;
+	sed -i "s~__LOGIN_URL__~$(LOGIN_URL)~g" ${SRC_DIR}/.env;
 	sed -i "s/__DATABASE_HOST__/${DATABASE_HOST}/g" ${SRC_DIR}/.env;
 	sed -i "s/__DATABASE_NAME__/${DATABASE_NAME}/g" ${SRC_DIR}/.env;
 	sed -i "s/__DATABASE_USER__/${DATABASE_USER}/g" ${SRC_DIR}/.env;
