@@ -4,13 +4,15 @@ VENV_BIN	= $(VENV)/bin
 VENV_PYTHON	= $(VENV_BIN)/python
 VENV_PIP	= $(VENV_BIN)/pip
 
-SRC_DIR	= src
+SRC_DIR		= src
 APP_NAME	= browser
-APP_DIR	= $(SRC_DIR)/$(APP_NAME)
+APP_DIR		= $(SRC_DIR)/$(APP_NAME)
 APP_ROOT	= $(realpath $(SRC_DIR)/..)
-
+LOG_DIR		= logs
 PORT		= 8000
 STATIC_ROOT	= static
+STATIC_URL	= static
+
 NUM_WORKERS	= 4
 GUNICORN_PATH	= $(realpath ${VENV_BIN}/gunicorn)
 PYTHON_PATH	= $(realpath ${SRC_DIR})
@@ -103,5 +105,32 @@ nginx-config: templates/edtlr-browser.conf.template
 	sed -i "s~__STATIC_URL__~$(STATIC_URL)~g" templates/edtlr-browser.conf;
 	sed -i "s~__STATIC_ROOT__~$(realpath $(STATIC_ROOT))~g" templates/edtlr-browser.conf;
 
-# install: venv dot-env-file socket-descriptor gunicorn-config service-descriptor nginx-config
-# 	mv
+# Create or update the .po file containing the translation strings
+messages: $(SRC_DIR)/manage.py
+	if [ ! -d $(APP_DIR)/locale ]; then \
+	    mkdir $(APP_DIR)/locale; \
+	fi; \
+	$(VENV_BIN)/django-admin makemessages --locale ro;
+
+# Compile the translations
+translations: $(APP_DIR)/locale/ro/LC_MESSAGES/django.po
+	$(VENV_BIN)/django-admin compilemessages;
+
+# Make migrations
+migrations: $(SRC_DIR)/manage.py
+	$(VENV_PYTHON) $(SRC_DIR)/manage.py makemigrations;
+
+# Apply migrations
+schema: $(SRC_DIR)/manage.py
+	$(VENV_PYTHON) $(SRC_DIR)/manage.py migrate;
+
+# Collect static files
+static-files: $(SRC_DIR)/manage.py
+	$(VENV_PYTHON) $(SRC_DIR)/manage.py collectstatic --no-input;
+
+update: schema static-files translations
+	$(VENV_PIP) install -r requirements.txt;
+	mkdir -p $(LOG_DIR);
+	sudo systemctl restart edtlr-annotator.service;
+	sudo systemctl restart edtlr-annotator.socket;
+	sudo systemctl restart nginx;
