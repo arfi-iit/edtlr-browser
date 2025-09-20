@@ -1,5 +1,6 @@
 """Module for custom middleware."""
 from django.urls import set_script_prefix
+import re
 
 
 class RoutePrefixMiddleware:
