@@ -88,6 +88,7 @@ gunicorn-config: templates/gunicorn.conf.py.template
 	sed -i "s~__GUNICORN_PATH__~$(GUNICORN_PATH)~g" templates/gunicorn.conf.py;
 	sed -i "s~__SRC_DIR_PATH__~$(PYTHON_PATH)~g" templates/gunicorn.conf.py;
 	sed -i "s/__NUM_WORKERS__/$(NUM_WORKERS)/g" templates/gunicorn.conf.py;
+	mv templates/gunicorn.conf.py $(SRC_DIR)/config/;
 
 # Make the service descriptor file
 service-descriptor: templates/edtlr-browser.service.template
