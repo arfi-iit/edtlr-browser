@@ -80,6 +80,7 @@ dot-env-file: templates/.env.template
 socket-descriptor: templates/edtlr-browser.socket.template
 	rm -f templates/edtlr-browser.socket;
 	cp templates/edtlr-browser.socket.template templates/edtlr-browser.socket;
+	sed -i "s/__USER__/$(USER)/g" templates/edtlr-browser.socket;
 
 # Make the Gunicorn configuration file
 gunicorn-config: templates/gunicorn.conf.py.template
