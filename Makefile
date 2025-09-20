@@ -133,6 +133,6 @@ static-files: $(SRC_DIR)/manage.py
 update: schema static-files translations
 	$(VENV_PIP) install -r requirements.txt;
 	mkdir -p $(LOG_DIR);
-	sudo systemctl restart edtlr-annotator.service;
-	sudo systemctl restart edtlr-annotator.socket;
+	sudo systemctl restart edtlr-browser.service;
+	sudo systemctl restart edtlr-browser.socket;
 	sudo systemctl restart nginx;
