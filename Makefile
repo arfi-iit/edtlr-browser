@@ -23,7 +23,7 @@ clean:
 
 # Create the virtual environment for running the app
 venv: clean
-	python3.11 -m venv $(VENV);
+	python3.12 -m venv $(VENV);
 	$(VENV_PIP) install -U pip;
 	if [ -f requirements.txt ]; then \
 		$(VENV_PIP) install -r requirements.txt; \
