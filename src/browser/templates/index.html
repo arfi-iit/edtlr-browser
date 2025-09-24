@@ -5,5 +5,17 @@
 {% block title %}{% translate "Search entry"  %}{% endblock %}
 
 {% block content %}
-&nbsp;
+<section class="search">
+  <form action="#" method="get">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="{% translate 'term' %}"
+	     aria-label="{% translate 'term' %}" aria-describedby="btn-search">
+      <button class="btn btn-outline-secondary" type="submit" id="btn-search">
+	<i class="bi bi-search"></i>
+	{% translate 'search' %}
+      </button>
+    </div>
+  </form>
+</section>
 {% endblock %}
