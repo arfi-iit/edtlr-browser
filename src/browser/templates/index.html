@@ -6,11 +6,11 @@
 
 {% block content %}
 <section class="search">
-  <form action="#" method="get">
+  <form method="post" action="{% url 'browser:index'  %}">
     {% csrf_token %}
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="{% translate 'term' %}"
-	     aria-label="{% translate 'term' %}" aria-describedby="btn-search">
+      <input id="term" name="term" type="text" class="form-control" placeholder="{% translate 'term' %}"
+	     aria-label="{% translate 'term' %}" aria-describedby="btn-search" value="{{search_term}}">
       <button class="btn btn-outline-secondary" type="submit" id="btn-search">
 	<i class="bi bi-search"></i>
 	{% translate 'search' %}
