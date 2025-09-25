@@ -43,6 +43,7 @@ class IndexView(View):
         term = request.POST.get('term')
         if not term:
             return redirect(self.index_page)
-        params = QueryDict.fromkeys(['t'], value=term)
+        params = QueryDict(mutable=True)
+        params['t'] = term
         base_url = reverse(self.index_page)
         return redirect(f'{base_url}?{params.urlencode()}')
