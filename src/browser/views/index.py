@@ -20,10 +20,17 @@ class IndexView(View):
         request: HttpRequest, required
             The request object.
         """
-        search_term = request.GET.get('t', '')
-        return render(request,
-                      self.template_name,
-                      context={'search_term': search_term})
+        search_term = request.GET.get('t', None)
+        if search_term is None:
+            return render(request, self.template_name)
+        else:
+            search_results = []
+            return render(request,
+                          self.template_name,
+                          context={
+                              'search_term': search_term,
+                              'search_results': search_results
+                          })
 
     def post(self, request):
         """Handle the POST request.

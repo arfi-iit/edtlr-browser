@@ -18,4 +18,14 @@
     </div>
   </form>
 </section>
+{% if search_term  %}
+<section class="search-results">
+  {% for result in search_results %}
+  {% empty %}
+  <div class="no-results">
+    <p>{% translate "No results found for" %}<strong>{{search_term}}</strong>.</p>
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
 {% endblock %}

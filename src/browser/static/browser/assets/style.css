@@ -38,6 +38,17 @@
     margin: 30px auto 35px;
 }
 
+.no-results{
+    margin: 1em 0 2em;
+    font-size: larger;
+    border-top: var(--bs-border-width) solid var(--bs-border-color);
+    padding: 0.5em 0;
+}
+
+.no-results p strong{
+    margin-left: 0.25em;
+}
+
 #footer{
     text-align: center;
     font-size: smaller;
