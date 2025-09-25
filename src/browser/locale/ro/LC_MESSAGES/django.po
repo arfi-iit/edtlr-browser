@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-24 09:09+0300\n"
-"PO-Revision-Date: 2025-09-24 09:15+0300\n"
+"POT-Creation-Date: 2025-09-25 20:33+0300\n"
+"PO-Revision-Date: 2025-09-25 20:34+0300\n"
 "Last-Translator: PETRU REBEJA <petru.rebeja@gmail.com>\n"
 "Language-Team: ROMANIAN\n"
 "Language: Romanian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
 
 #: src/browser/templates/base.html:10
 msgid "eDTLR browser"
@@ -29,10 +30,14 @@ msgstr "Dicționarul de Tezaur al Limbii Române"
 msgid "Search entry"
 msgstr "Căutare termen din dicționar"
 
-#: src/browser/templates/index.html:11 src/browser/templates/index.html:12
+#: src/browser/templates/index.html:12 src/browser/templates/index.html:13
 msgid "term"
 msgstr "termen"
 
-#: src/browser/templates/index.html:15
+#: src/browser/templates/index.html:16
 msgid "search"
 msgstr "caută"
+
+#: src/browser/templates/index.html:26
+msgid "No results found for"
+msgstr "Nu a fost găsit niciun rezultat pentru"
