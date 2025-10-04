@@ -149,7 +149,7 @@ class EntryXmlParser:
             The name of the tag containing the title word.
         md5: str, optional
             The name of the attribute containing the MD5 hash.
-            Default value si 'md5hash'.
+            Default value is 'md5hash'.
 
         Returns
         -------
