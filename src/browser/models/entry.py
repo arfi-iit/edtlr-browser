@@ -43,6 +43,22 @@ class Entry(models.Model):
 
         return super(Entry, self).save(*args, **kwargs)
 
+    def is_equal_to(self, other) -> bool:
+        """Check if the current entry is equal to the other entry."""
+        return (self.title_word_md5 == other.title_word_md5
+                and self.title_word_normalized_md5
+                == other.title_word_normalized_md5
+                and self.text_md5 == other.text_md5)
+
+    def copy_values_from(self, other):
+        """Copy the values from the other entry into current entry."""
+        self.title_word = other.title_word
+        self.title_word_md5 = other.title_word_md5
+        self.title_word_normalized = other.title_word_normalized
+        self.title_word_normalized_md5 = other.title_word_normalized_md5
+        self.text_html = other.text_html
+        self.text_md5 = other.text_md5
+
     def __str__(self):
         """Override the string representation of the model."""
         return self.title_word

@@ -58,6 +58,12 @@ app: dev-venv
 	    ../$(VENV_PYTHON) manage.py startapp $(APP_NAME); \
 	fi;
 
+# Run the tests
+test-run: $(SRC_DIR)/manage.py
+	cd $(SRC_DIR) && \
+	$(APP_ROOT)/$(VENV_PYTHON) manage.py test && \
+	cd $(APP_ROOT);
+
 # Run the development server
 start: $(SRC_DIR)/manage.py
 	$(VENV_PYTHON) $(SRC_DIR)/manage.py runserver 0.0.0.0:$(PORT);
@@ -130,9 +136,13 @@ schema: $(SRC_DIR)/manage.py
 static-files: $(SRC_DIR)/manage.py
 	$(VENV_PYTHON) $(SRC_DIR)/manage.py collectstatic --no-input;
 
+# Update the application
 update: schema static-files translations
 	$(VENV_PIP) install -r requirements.txt;
 	mkdir -p $(LOG_DIR);
 	sudo systemctl restart edtlr-browser.service;
 	sudo systemctl restart edtlr-browser.socket;
 	sudo systemctl restart nginx;
+
+import: $(SRC_DIR)/manage.py
+	$(VENV_PYTHON) $(SRC_DIR)/manage.py importdata --input-directory $(IMPORT_DIR);
