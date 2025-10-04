@@ -1,4 +1,6 @@
 """The index view."""
+from browser.models.entry import Entry
+from django.db.models import Q
 from django.http import QueryDict
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -24,7 +26,7 @@ class IndexView(View):
         if search_term is None:
             return render(request, self.template_name)
         else:
-            search_results = []
+            search_results = self.__search(search_term)
             return render(request,
                           self.template_name,
                           context={
@@ -47,3 +49,21 @@ class IndexView(View):
         params['t'] = term
         base_url = reverse(self.index_page)
         return redirect(f'{base_url}?{params.urlencode()}')
+
+    def __search(self, term: str) -> list[Entry]:
+        """Search entries matching the specified term.
+
+        Parameters
+        ----------
+        term: str, required
+            The search term.
+
+        Returns
+        -------
+        results: list of Entry
+            The entries matching the search term.
+        """
+        query = Q(title_word_normalized__icontains=term)
+        query.add(Q(title_word__icontains=term), Q.OR)
+        results = Entry.objects.filter(query).order_by('title_word')
+        return list(results)
