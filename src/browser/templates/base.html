@@ -27,10 +27,12 @@
       <div class="col-md-12">
 	<header>
 	  <div class="edtlr-banner">
-	    <object data="{% static 'browser/assets/svg/edtlr.svg' %}" width="256px" height="104px">
-	      <img src="{% static 'browser/assets/png/edtlr.png' %}" />
-	    </object>
-	    <div class="edtlr-title">{% translate 'Thesaurus Dictionary of the Romanian Language' %}</div>
+	    <a href="{% url 'browser:index' %}">
+	      <object data="{% static 'browser/assets/svg/edtlr.svg' %}" width="256px" height="104px">
+		<img src="{% static 'browser/assets/png/edtlr.png' %}" />
+	      </object>
+	      <div class="edtlr-title">{% translate 'Thesaurus Dictionary of the Romanian Language' %}</div>
+	    </a>
 	  </div>
 	</header>
 	{% block content %}{% endblock %}
