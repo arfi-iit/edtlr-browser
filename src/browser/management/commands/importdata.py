@@ -130,8 +130,9 @@ class EntryXmlParser:
         for elem in xml_root.iter('body'):
             md5 = elem.get('md5hash')
             paragraphs = elem.iter('paragraph')
-            html = '\n'.join([converter.convert(p.text) for p in paragraphs])
-            return (f'<article>\n{html}\n</article>', md5)
+            html = '\n'.join(
+                [f'<p>{converter.convert(p.text)}</p>' for p in paragraphs])
+            return (html, md5)
 
         return ('', '')
 
