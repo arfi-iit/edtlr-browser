@@ -249,7 +249,8 @@ class DictMarkdownToHtmlConverter:
         if last == mark:
             return text + f'</{tag_name}>'
 
-        open_marks.append(last)
+        if last is not None:
+            open_marks.append(last)
         open_marks.append(mark)
         return text + f'<{tag_name}>'
 
