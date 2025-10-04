@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
+import unicodedata
 
 
 class IndexView(View):
@@ -63,7 +64,24 @@ class IndexView(View):
         results: list of Entry
             The entries matching the search term.
         """
-        query = Q(title_word_normalized__icontains=term)
+        normalized_term = self.__to_normalized_form(term)
+        query = Q(title_word_normalized__icontains=normalized_term)
         query.add(Q(title_word__icontains=term), Q.OR)
         results = Entry.objects.filter(query).order_by('title_word')
         return list(results)
+
+    def __to_normalized_form(self, term: str) -> str:
+        """Convert the provided term to normalized form.
+
+        Parameters
+        ----------
+        term: str, required
+            The term to convert.
+
+        Returns
+        -------
+        normalized_term: str
+            The term in its canonical form.
+        """
+        nfkd_form = unicodedata.normalize('NFKD', term)
+        return ''.join([c for c in nfkd_form if not unicodedata.combining(c)])
