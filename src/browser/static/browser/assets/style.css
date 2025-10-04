@@ -72,6 +72,12 @@
     margin: 1em 0 1em;
 }
 
+.search-results article p
+{
+    margin: 0px;
+    line-height: 1.6;
+}
+
 #footer{
     text-align: center;
     font-size: smaller;

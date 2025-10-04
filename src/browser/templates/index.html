@@ -21,7 +21,9 @@
 {% if search_term  %}
 <section class="search-results">
   {% for result in search_results %}
-  {{ result.text_html | safe}}
+  <article>
+    {{ result.text_html | safe}}
+  </article>
   {% empty %}
   <div class="no-results">
     <p>{% translate "No results found for" %}&nbsp;<strong>{{search_term}}</strong>.</p>
