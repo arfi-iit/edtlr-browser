@@ -38,7 +38,7 @@ make import IMPORT_DIR=/tmp/edtrl-entries
 
 ### Importul de date în regim forțat
 
-Atunci când datele sunt importate în regim normal, aplicația iterează prin fișierele cu extensia `.xml` din directorul specificat în linia de comandă și actualizează intrările din baza de date indiferent dacă datele au fost modificate sau nu.
+Atunci când datele sunt importate în regim forțat, aplicația iterează prin fișierele cu extensia `.xml` din directorul specificat în linia de comandă și actualizează intrările din baza de date indiferent dacă datele au fost modificate sau nu.
 
 Pentru a importa datele în regim forțat în baza de date a aplicației, se execută (în directorul rădăcină al depozitului de cod) următoarea comandă:
 ```sh
