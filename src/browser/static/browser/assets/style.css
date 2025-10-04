@@ -50,11 +50,32 @@
     pointer-events: none;
 }
 
-.no-results{
+.no-results, .search-results
+{
     margin: 1em 0 2em;
-    font-size: larger;
     border-top: var(--bs-border-width) solid var(--bs-border-color);
     padding: 0.5em 0;
+}
+
+.no-results
+{
+    font-size: larger;
+}
+
+.search-results
+{
+    font-size: 1.12em;
+}
+
+.search-results article
+{
+    margin: 1em 0 1em;
+}
+
+.search-results article p
+{
+    margin: 0px;
+    line-height: 1.6;
 }
 
 #footer{

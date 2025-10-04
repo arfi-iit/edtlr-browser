@@ -24,14 +24,21 @@ class Command(BaseCommand):
             '--input-directory',
             help="The path of the directory containing dictionary entries.",
             required=True)
+        parser.add_argument(
+            '--force',
+            help="If specified update the entries even if MD5 sums match.",
+            required=False,
+            default=False,
+            action='store_true')
 
     def handle(self, *args, **options):
         """Import the data into the database."""
         input_dir = Path(options['input_directory'])
+        force = options['force']
 
         for entry_file in input_dir.glob("*.xml"):
             entry = self.__read_contents(entry_file)
-            if self.__update_entry(entry):
+            if self.__update_entry(entry, force):
                 style = self.style.SUCCESS
                 message = f'Entry {entry_file.stem} updated.'
             else:
@@ -41,13 +48,16 @@ class Command(BaseCommand):
 
         self.stdout.write("Finished importing data.")
 
-    def __update_entry(self, entry: Entry):
+    def __update_entry(self, entry: Entry, force: bool = False):
         """Update the specified entry if changed.
 
         Parameters
         ----------
         entry: Entry, required
             The entry to update.
+        force: bool, optional
+            If true, the entry will be updated anyway.
+            Default is 'False'.
 
         Returns
         -------
@@ -59,7 +69,7 @@ class Command(BaseCommand):
             return True
 
         db_entry = Entry.objects.get(id=entry.id)
-        if db_entry.is_equal_to(entry):
+        if db_entry.is_equal_to(entry) and not force:
             return False
 
         db_entry.copy_values_from(entry)
@@ -130,8 +140,9 @@ class EntryXmlParser:
         for elem in xml_root.iter('body'):
             md5 = elem.get('md5hash')
             paragraphs = elem.iter('paragraph')
-            html = '\n'.join([converter.convert(p.text) for p in paragraphs])
-            return (f'<article>\n{html}\n</article>', md5)
+            html = '\n'.join(
+                [f'<p>{converter.convert(p.text)}</p>' for p in paragraphs])
+            return (html, md5)
 
         return ('', '')
 

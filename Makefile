@@ -144,5 +144,9 @@ update: schema static-files translations
 	sudo systemctl restart edtlr-browser.socket;
 	sudo systemctl restart nginx;
 
+# Import the data into the application.
+# make import IMPORT_DIR=<path> will import normally
+# make import IMPORT_DIR=<path> FORCE_IMPORT=--force will import using the --force flag
+FORCE_IMPORT ?=
 import: $(SRC_DIR)/manage.py
-	$(VENV_PYTHON) $(SRC_DIR)/manage.py importdata --input-directory $(IMPORT_DIR);
+	$(VENV_PYTHON) $(SRC_DIR)/manage.py importdata --input-directory $(IMPORT_DIR) $(FORCE_IMPORT);
