@@ -137,7 +137,7 @@ class EntryXmlParser:
 
     def __parse_title_word(self,
                            xml_root: XML.ElementTree,
-                           tag: str,
+                           tag_name: str,
                            md5: str = 'md5hash') -> Tuple[str, str]:
         """Parse the title word specified by tag name.
 
@@ -156,7 +156,7 @@ class EntryXmlParser:
         (title_word, md5hash): tuple of (str, str)
             The title word and its MD5 hash.
         """
-        for elem in xml_root.iter(tag):
+        for elem in xml_root.iter(tag_name):
             return (elem.text, elem.get(md5))
         return ('', '')
 
