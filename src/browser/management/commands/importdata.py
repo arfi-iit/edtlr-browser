@@ -94,10 +94,10 @@ class Command(BaseCommand):
         try:
             parser = EntryXmlParser()
             return parser.parse(entry_file)
-        except AttributeError as ex:
+        except (AttributeError, XML.ParseError, ValueError) as ex:
             self.stderr.write(
-                f'Error parsing entry {entry_file}. Exception: {ex}',
-                self.style.ERROR)
+                f'Error parsing entry from {entry_file.resolve()}.\n' +
+                f'Exception: {ex}', self.style.ERROR)
         return None
 
 
