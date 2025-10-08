@@ -38,6 +38,8 @@ class Command(BaseCommand):
 
         for entry_file in input_dir.glob("*.xml"):
             entry = self.__read_contents(entry_file)
+            if entry is None:
+                continue
             if self.__update_entry(entry, force):
                 style = self.style.SUCCESS
                 message = f'Entry {entry_file.stem} updated.'
@@ -76,7 +78,7 @@ class Command(BaseCommand):
         db_entry.save()
         return True
 
-    def __read_contents(self, entry_file: Path) -> Entry:
+    def __read_contents(self, entry_file: Path) -> Entry | None:
         """Read the contents of the entry file.
 
         Parameters
@@ -89,8 +91,14 @@ class Command(BaseCommand):
         entry: Entry
             The entry read from the file.
         """
-        parser = EntryXmlParser()
-        return parser.parse(entry_file)
+        try:
+            parser = EntryXmlParser()
+            return parser.parse(entry_file)
+        except (AttributeError, XML.ParseError, ValueError) as ex:
+            self.stderr.write(
+                f'Error parsing entry from {entry_file.resolve()}.\n' +
+                f'Exception: {ex}', self.style.ERROR)
+        return None
 
 
 class EntryXmlParser:
@@ -140,8 +148,10 @@ class EntryXmlParser:
         for elem in xml_root.iter('body'):
             md5 = elem.get('md5hash')
             paragraphs = elem.iter('paragraph')
-            html = '\n'.join(
-                [f'<p>{converter.convert(p.text)}</p>' for p in paragraphs])
+            html = '\n'.join([
+                f'<p>{converter.convert(p.text)}</p>' for p in paragraphs
+                if p.text
+            ])
             return (html, md5)
 
         return ('', '')
